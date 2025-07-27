@@ -11,6 +11,6 @@ def get_location(lat, lon):
   except Exception:
       return pd.Series([None, None, None])
   
-  def get_country_name(code):
+def get_country_name(code):
     country = pycountry.countries.get(alpha_2=code)
     return country.name if country else code
