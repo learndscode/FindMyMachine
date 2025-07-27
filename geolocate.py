@@ -24,13 +24,7 @@ def review_needed(row):
     else : 
        return 'Yes'
     
-# Function to style individual cells
-def color_needs_review(val):
-    if val == 'No':
-        return 'background-color: lightgreen'
-    else:
-        return 'background-color: lightcoral'
-    
+# Function to style individual cells    
 def highlight_cells(row):
     styles = [''] * len(row)
     if row['Expected Country'] != row['Country']:

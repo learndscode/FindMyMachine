@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import reverse_geocoder as rg
 
-from geolocate import get_location, review_needed, color_needs_review, highlight_cells
+from geolocate import get_location, review_needed, highlight_cells
 
 st.set_page_config(
     page_title="Find My Machines",
@@ -14,7 +14,7 @@ st.set_page_config(
 
 st.title("Find My Machines")
 
-upload_file = st.file_uploader("Choose a spreadsheet file", type="xlsx")
+upload_file = st.file_uploader("Choose a spreadsheet file to upload.", type="xlsx")
 
 if upload_file is not None:
     # Read the Excel file into a DataFrame
