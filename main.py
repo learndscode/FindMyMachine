@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="auto" # Optional: Control the initial state of the sidebar
 )
 
-st.title("Find My Location")
+st.title("Find My Things Location")
 
 upload_file = st.file_uploader("Choose a spreadsheet file to upload.", type="xlsx")
 
