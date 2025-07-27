@@ -16,8 +16,8 @@ def get_location(lat, lon):
       return pd.Series([None, None, None])
   
 def review_needed(row):
-    if row['Expected Country'] == row['Country']:
-       if row['Expected State'] == row['State']:
+    if row['Country Expected'] == row['Country']:
+       if row['State Expected'] == row['State']:
           return 'No'
        else:
           return 'Yes'
@@ -27,12 +27,12 @@ def review_needed(row):
 # Function to style individual cells    
 def highlight_cells(row):
     styles = [''] * len(row)
-    if row['Expected Country'] != row['Country']:
-        styles[row.index.get_loc('Expected Country')] = 'background-color: #FFC7CD; color: darkred'
-        styles[row.index.get_loc('Country')] = 'background-color: #FFC7CD; color: darkred'
-    if row['Expected State'] != row['State']:
-        styles[row.index.get_loc('Expected State')] = 'background-color: lemonchiffon'
-        styles[row.index.get_loc('State')] = 'background-color: lemonchiffon'
+    if row['Country Expected'] != row['Country Located']:
+        styles[row.index.get_loc('Country Expected')] = 'background-color: #FFC7CD; color: darkred'
+        styles[row.index.get_loc('Country Located')] = 'background-color: #FFC7CD; color: darkred'
+    if row['State Expected'] != row['State Located']:
+        styles[row.index.get_loc('State Expected')] = 'background-color: lemonchiffon'
+        styles[row.index.get_loc('State Located')] = 'background-color: lemonchiffon'
     if row['Needs Review'] == 'Yes':
         styles[row.index.get_loc('Needs Review')] = 'background-color: #FFC7CD; color: darkred'
 

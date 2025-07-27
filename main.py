@@ -49,9 +49,13 @@ if upload_file is not None:
     df = df.fillna("None")
     df['Needs Review'] = "No"
     df['Needs Review'] = df.apply(review_needed, axis=1)
-    # Reorder columns to have Country, State, City first
+    # Reorder columns to have Needs Review first and reorder Country, State, City first
     columns =['Needs Review'] + [col for col in df.columns if col not in ['Needs Review', 'Country', 'State', 'City']] + ['Country', 'State', 'City']
     df = df[columns]
+
+    df.rename(columns={"Country": "Country Located"}, inplace=True)
+    df.rename(columns={"State": "State Located"}, inplace=True)
+    df.rename(columns={"City": "City Located"}, inplace=True)
 
     st.subheader("Filter Data")
     # Add 'All' option to the list
