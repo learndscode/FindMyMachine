@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import reverse_geocoder as rg
 
-from geolocate import get_location
+from geolocate import get_location, review_needed, color_needs_review, highlight_cells
 
 st.set_page_config(
     page_title="Find My Machines",
@@ -27,23 +27,40 @@ if upload_file is not None:
     st.write("Total records uploaded: " + str(f"{len(df):,}"))
 
     #if st.button("Compare Locations"):
-        # Apply reverse geocoding
+    # Apply reverse geocoding
     df[['City', 'State', 'Country']] = df.apply(
         lambda row: get_location(row['Latitude'], row['Longitude']), axis=1)
+    df.replace('', None, inplace=True)
+    # Reorder columns to have Country, State, City first
     df = df.fillna("None")
+    df['Needs Review'] = "No"
+    df['Needs Review'] = df.apply(review_needed, axis=1)
+    # Reorder columns to have Country, State, City first
+    columns =['Needs Review'] + [col for col in df.columns if col not in ['Needs Review', 'Country', 'State', 'City']] + ['Country', 'State', 'City']
+    df = df[columns]
+
     st.subheader("Filter Data")
     # Add 'All' option to the list
     columns = df.columns.to_list()
     selected_column = st.selectbox("Select column to filter by", columns)
-    unique_values = ['All'] + sorted(df[selected_column].unique())
+    if selected_column == "Needs Review":
+        unique_values = ['All', 'Yes', 'No']
+    else:
+        unique_values = ['All'] + sorted(df[selected_column].unique())
     selected_value = st.selectbox("Select value", unique_values)
-    
+
     # Filter logic
     if selected_value == 'All':
         filtered_df = df
     else:
         filtered_df = df[df[selected_column] == selected_value]
+
+    # Dataframe styling
+    # Apply the styling
+    #styled_df = filtered_df.style.applymap(color_needs_review, subset=['Needs Review'])
+    styled_df = filtered_df.style.apply(highlight_cells, axis=1)
+
     st.write("Total records selected: " + str(f"{len(filtered_df):,}"))
-    st.write(filtered_df)
+    st.write(styled_df)
 else:
     st.write("Waiting on  file upload...")
