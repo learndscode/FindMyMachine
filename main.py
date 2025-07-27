@@ -15,7 +15,7 @@ upload_file = st.file_uploader("Choose a spreadsheet file", type="xlsx")
 
 if upload_file is not None:
     # Read the Excel file into a DataFrame
-    df = pd.read_excel(upload_file)
+    df = pd.read_excel(upload_file, 'openpyxl')
 
     st.subheader("Data Summary")
     st.write("Total records uploaded: " + str(f"{len(df):,}"))
