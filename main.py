@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import reverse_geocoder as rg
+import base64
 
 from geolocate import get_location, review_needed, highlight_cells
 
@@ -12,7 +13,20 @@ st.set_page_config(
     initial_sidebar_state="auto" # Optional: Control the initial state of the sidebar
 )
 
-st.title("Find My Machines")
+# Path to your image in the assets folder
+image_path = "assets/SkidSteer.png"
+
+# Encode image to base64
+with open(image_path, "rb") as image_file:
+    encoded = base64.b64encode(image_file.read()).decode()
+
+# Inject HTML with inline image and title (vertically aligned)
+st.markdown(f"""
+    <div style="display: flex; align-items: center;">
+        <img src="data:image/png;base64,{encoded}" width="60" style="margin-right: 15px;" />
+        <h1 style="margin: 0;">Find My Machine</h1>
+    </div>
+""", unsafe_allow_html=True)
 
 upload_file = st.file_uploader("Choose a spreadsheet file to upload.", type="xlsx")
 
