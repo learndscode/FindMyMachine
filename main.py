@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import reverse_geocoder as rg
 
 st.set_page_config(
     page_title="Find My Machines",
