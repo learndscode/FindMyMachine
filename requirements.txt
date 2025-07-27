@@ -5,3 +5,4 @@ openpyxl
 reverse_geocoder
 numpy
 scipy
+pycountry
