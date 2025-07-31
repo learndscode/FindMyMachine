@@ -47,13 +47,9 @@ if upload_file is not None:
     zoom_level = 10
 
     df['Map Link'] = df.apply(
-        lambda row: f"https://www.google.com/maps/@{row['Latitude']},{row['Longitude']},{zoom_level}z", axis=1
+        lambda row: f"https://www.google.com/maps/search/?api=1&query={row['Latitude']},{row['Longitude']}&zoom={zoom_level}", axis=1
     )
-    st.dataframe(df, column_config={"Map Link": st.column_config.LinkColumn(
-        help="Click to open in maps", # Optional: tooltip
-        display_text="Show on Map" # Optional: custom text to display for the link
-    )})
-
+    
     st.subheader("Filter Data")
     # Add 'All' option to the list
     columns = df.columns.to_list()
@@ -76,6 +72,10 @@ if upload_file is not None:
     styled_df = filtered_df.style.apply(highlight_cells, axis=1)
 
     st.write("Total records selected: " + str(f"{len(filtered_df):,}"))
-    st.write(styled_df)
+    #st.write(styled_df)
+    st.dataframe(styled_df, column_config={"Map Link": st.column_config.LinkColumn(
+        help="Click to open in maps", # Optional: tooltip
+        display_text="Show on Map" # Optional: custom text to display for the link
+    )})
 else:
     st.write("Waiting on  file upload...")
