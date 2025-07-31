@@ -7,8 +7,8 @@ import base64
 from geolocate import get_location, review_needed, highlight_cells
 
 st.set_page_config(
-    page_title="Find My Machines",
-    page_icon="assets/SkidSteer.png",  # Optional: You can also set a page icon (favicon)
+    page_title="Find My Things",
+    #page_icon="assets/SkidSteer.png",  # Optional: You can also set a page icon (favicon)
     layout="wide", # Optional: Set the layout (e.g., "wide" or "centered")
     initial_sidebar_state="auto" # Optional: Control the initial state of the sidebar
 )
@@ -32,7 +32,6 @@ if upload_file is not None:
     df[['City', 'State', 'Country']] = df.apply(
         lambda row: get_location(row['Latitude'], row['Longitude']), axis=1)
     df.replace('', None, inplace=True)
-    # Reorder columns to have Country, State, City first
     df = df.fillna("None")
     df['Needs Review'] = "No"
     df['Needs Review'] = df.apply(review_needed, axis=1)
@@ -43,6 +42,17 @@ if upload_file is not None:
     df.rename(columns={"Country": "Country Located"}, inplace=True)
     df.rename(columns={"State": "State Located"}, inplace=True)
     df.rename(columns={"City": "City Located"}, inplace=True)
+
+    # Set zoom level
+    zoom_level = 10
+
+    df['Map Link'] = df.apply(
+        lambda row: f"https://www.google.com/maps/@{row['Latitude']},{row['Longitude']},{zoom_level}z", axis=1
+    )
+    st.dataframe(df, column_config={"Map Link": st.column_config.LinkColumn(
+        help="Click to open in maps", # Optional: tooltip
+        display_text="Show on Map" # Optional: custom text to display for the link
+    )})
 
     st.subheader("Filter Data")
     # Add 'All' option to the list
