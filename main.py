@@ -21,7 +21,6 @@ if upload_file is not None:
     # Read the Excel file into a DataFrame
     df = pd.read_excel(upload_file, engine='openpyxl')
     # Replace NaN with None across entire DataFrame
-    #df = df.apply(lambda col: col.map(lambda x: None if pd.isna(x) else x))
     df = df.fillna("None")
 
     st.subheader("Data Summary")
